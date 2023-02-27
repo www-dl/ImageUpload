@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+<style text="text/css">
+
+ .drop {
+        margin-top: 20px;
+        margin-left: 0px;
+      }
+
+      .drop > div {
+        margin-right: 10px;
+        float: left;
+      }
+
+      .g-container {
+        width: 240px;
+        height: 20px;
+        border-radius: 20px;
+        background: #eee;
+      }
+
+      .g-progress {
+        width: 0%;
+        height: inherit;
+        border-radius: 20px;
+        background: linear-gradient(90deg, #0f0, #0ff);
+        transition: width .2s linear;
+      }
+</style>
+<link href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/sweetalert/1.1.3/sweetalert.min.css" type="text/css" rel="stylesheet" />
+<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/2.2.0/jquery.min.js" type="application/javascript"></script>
+<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/sweetalert/1.1.3/sweetalert.min.js" type="application/javascript"></script>
+<script src="upload.js" />
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+	<p style="font-weight: bold;">请上传图片</p>
+                                        <p><span
+                                            style="color: red">注：每张图片大小不可超过500K，一次最多可以上传4张,图片尺寸为：375*420</span>
+                                        </p>
+<div class="drop">
+    <div id="drop_area1"></div>
+    <div id="drop_area2"></div>
+    <div id="drop_area3"></div>
+
+</div>
+<script type="text/javascript">
+	$(document).ready(function () {
+		console.log("ready");
+		let imgData=[];
+    initImageUpload();
+
+	});
+
+function initImageUpload(imgData) {
+    var dragImgUpload = new DragImgUpload("#drop_area1", {
+        callback: function (files) {
+            //回调函数，可以传递给后台等等
+            let file = files;
+            console.log(file.name);
+           
+        },
+        onDelete: function (url) {
+            Confirm("确定要删除此图片么？", function () {
+                console.log("del img:"+url);
+            });
+
+        },
+        onError: function (error) {
+            Alert("", error, "error");
+        },
+        fileSize: 500,
+        size: {
+            width: 375,
+            height: 420
+        },
+        boxWidth: '150px',
+        boxHeight: '165px',
+        iniImage: function () {
+            if (imgData &&imgData.length > 0) {
+                return imgData[0].imgUrl;
+            }
+        }
+
+    })
+
+    var dragImgUpload2 = new DragImgUpload("#drop_area2", {
+        callback: function (files) {
+            //回调函数，可以传递给后台等等
+            var file = files;
+            console.log(file.name);
+          
+        },
+        onDelete: function (url) {
+            Confirm("确定要删除此图片么？", function () {
+                 console.log("del img:"+url);
+            });
+        },
+        onError: function (error) {
+            Alert("", error, "error");
+        },
+        fileSize: 500,
+        size: {
+            width: 375,
+            height: 420
+        },
+        boxWidth: '150px',
+        boxHeight: '165px',
+        iniImage: function () {
+            if (imgData &&imgData.length > 1) {
+                return imgData[1].imgUrl;
+            }
+        }
+    })
+
+    var dragImgUpload3 = new DragImgUpload("#drop_area3", {
+        callback: function (files) {
+            //回调函数，可以传递给后台等等
+            let file = files;
+        },
+        onDelete: function (url) {
+            console.log(url)
+            Confirm("确定要删除此图片么？", function () {
+               console.log("del img:"+url);
+            });
+        },
+        onError: function (error) {
+             Alert("", error, "error");
+        },
+        fileSize: 500,
+        size: {
+            width: 375,
+            height: 420
+        },
+        boxWidth: '150px',
+        boxHeight: '165px',
+        iniImage: function () {
+            if (imgData &&imgData.length > 2) {
+                return imgData[2].imgUrl;
+            }
+        }
+
+    })
+
+    
+}
+
+function Alert(title, msg, type, successFuc) {
+    var msgType = "warning";
+    if (type == undefined ){
+        type = msgType;
+    }
+    if (type) {
+        msgType = type;
+        swal({
+            title : title,
+            text : msg,
+            type : msgType,
+            confirmButtonText : "确定"
+        }, function() {
+            if (successFuc) {
+                successFuc();
+            }
+        });
+    } else {
+        swal({
+            title : title,
+            text : msg,
+            confirmButtonText : "确定"
+        }, function() {
+            if (successFuc) {
+                successFuc();
+            }
+        });
+    }
+}
+
+function Confirm(msg, confirmFuc) {
+    swal({
+        title : "",
+        text : msg,
+        type : "warning",
+        showCancelButton : true,
+        confirmButtonColor : "#DD6B55",
+        confirmButtonText : "确定",
+        cancelButtonText : "取消",
+        closeOnConfirm : false,
+        closeOnCancel : true
+    }, function(isConfirm) {
+        if (isConfirm) {
+            if (confirmFuc) {
+                confirmFuc();
+            }
+            swal.close();
+        }
+        return isConfirm;
+    });
+}
+</script>
+</body>
+</html>
